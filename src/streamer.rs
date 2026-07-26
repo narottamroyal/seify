@@ -5,6 +5,7 @@ use crate::Error;
 #[cfg(any(
     all(feature = "aaronia_http", not(target_arch = "wasm32")),
     all(feature = "bladerf1", not(target_arch = "wasm32")),
+    all(feature = "bladerf2", not(target_arch = "wasm32")),
     all(feature = "hackrfone", not(target_arch = "wasm32")),
     all(feature = "hydrasdr", not(target_arch = "wasm32")),
     all(feature = "rtlsdr", not(target_arch = "wasm32")),

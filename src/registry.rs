@@ -173,6 +173,11 @@ impl Default for Registry {
         #[cfg(all(feature = "bladerf1", not(target_arch = "wasm32")))]
         registry.register(BuiltinDriver::<crate::impls::BladeRf>::new(Driver::BladeRf));
 
+        #[cfg(all(feature = "bladerf2", not(target_arch = "wasm32")))]
+        registry.register(BuiltinDriver::<crate::impls::BladeRf2>::new(
+            Driver::BladeRf2,
+        ));
+
         #[cfg(all(feature = "rtlsdr", not(target_arch = "wasm32")))]
         registry.register(BuiltinDriver::<crate::impls::RtlSdr>::new(Driver::RtlSdr));
 
@@ -208,6 +213,7 @@ fn builtin_driver_enabled(driver: Driver) -> bool {
     match driver {
         Driver::AaroniaHttp => cfg!(all(feature = "aaronia_http", not(target_arch = "wasm32"))),
         Driver::BladeRf => cfg!(all(feature = "bladerf1", not(target_arch = "wasm32"))),
+        Driver::BladeRf2 => cfg!(all(feature = "bladerf2", not(target_arch = "wasm32"))),
         Driver::Dummy => cfg!(feature = "dummy"),
         Driver::HackRf => cfg!(all(feature = "hackrfone", not(target_arch = "wasm32"))),
         Driver::HydraSdr => cfg!(all(feature = "hydrasdr", not(target_arch = "wasm32"))),
@@ -219,6 +225,7 @@ fn builtin_driver_enabled(driver: Driver) -> bool {
 #[cfg(any(
     all(feature = "aaronia_http", not(target_arch = "wasm32")),
     all(feature = "bladerf1", not(target_arch = "wasm32")),
+    all(feature = "bladerf2", not(target_arch = "wasm32")),
     feature = "dummy",
     all(feature = "hackrfone", not(target_arch = "wasm32")),
     all(feature = "hydrasdr", not(target_arch = "wasm32")),
@@ -233,6 +240,7 @@ struct BuiltinDriver<D> {
 #[cfg(any(
     all(feature = "aaronia_http", not(target_arch = "wasm32")),
     all(feature = "bladerf1", not(target_arch = "wasm32")),
+    all(feature = "bladerf2", not(target_arch = "wasm32")),
     feature = "dummy",
     all(feature = "hackrfone", not(target_arch = "wasm32")),
     all(feature = "hydrasdr", not(target_arch = "wasm32")),
@@ -251,6 +259,7 @@ impl<D> BuiltinDriver<D> {
 #[cfg(any(
     all(feature = "aaronia_http", not(target_arch = "wasm32")),
     all(feature = "bladerf1", not(target_arch = "wasm32")),
+    all(feature = "bladerf2", not(target_arch = "wasm32")),
     feature = "dummy",
     all(feature = "hackrfone", not(target_arch = "wasm32")),
     all(feature = "hydrasdr", not(target_arch = "wasm32")),
@@ -282,6 +291,7 @@ where
 #[cfg(any(
     all(feature = "aaronia_http", not(target_arch = "wasm32")),
     all(feature = "bladerf1", not(target_arch = "wasm32")),
+    all(feature = "bladerf2", not(target_arch = "wasm32")),
     feature = "dummy",
     all(feature = "hackrfone", not(target_arch = "wasm32")),
     all(feature = "hydrasdr", not(target_arch = "wasm32")),
@@ -310,6 +320,8 @@ macro_rules! impl_builtin_device {
 impl_builtin_device!(crate::impls::AaroniaHttp, Driver::AaroniaHttp);
 #[cfg(all(feature = "bladerf1", not(target_arch = "wasm32")))]
 impl_builtin_device!(crate::impls::BladeRf, Driver::BladeRf);
+#[cfg(all(feature = "bladerf2", not(target_arch = "wasm32")))]
+impl_builtin_device!(crate::impls::BladeRf2, Driver::BladeRf2);
 #[cfg(feature = "dummy")]
 impl_builtin_device!(crate::impls::Dummy, Driver::Dummy);
 #[cfg(all(feature = "hackrfone", not(target_arch = "wasm32")))]

@@ -2549,6 +2549,7 @@ fn async_builtin_driver_enabled(driver: Driver) -> bool {
     match driver {
         Driver::AaroniaHttp => cfg!(all(feature = "aaronia_http", not(target_arch = "wasm32"))),
         Driver::BladeRf => cfg!(all(feature = "bladerf1", not(target_arch = "wasm32"))),
+        Driver::BladeRf2 => cfg!(all(feature = "bladerf2", not(target_arch = "wasm32"))),
         Driver::Dummy => cfg!(feature = "dummy"),
         Driver::HackRf => cfg!(all(feature = "hackrfone", not(target_arch = "wasm32"))),
         Driver::HydraSdr => cfg!(all(
