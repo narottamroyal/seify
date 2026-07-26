@@ -929,6 +929,12 @@ where
     }
 }
 
+impl<T: DynDeviceBackend + 'static> From<Device<T>> for DynDevice {
+    fn from(dev: Device<T>) -> Self {
+        dev.erase()
+    }
+}
+
 impl<T: DeviceInfo> Device<T> {
     /// SDR [driver](Driver).
     pub fn driver(&self) -> Driver {
