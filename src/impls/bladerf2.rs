@@ -408,7 +408,7 @@ impl RxStreamer for bladerf2::RxStream {
         _timeout_us: i64,
     ) -> Result<usize, Error> {
         self.read(buffers)?;
-        Ok(buffers[0].len())
+        Ok(buffers.iter().map(|x| x.len()).min().unwrap_or_default())
     }
 }
 
@@ -433,7 +433,7 @@ impl TxStreamer for bladerf2::TxStream {
         _timeout_us: i64,
     ) -> Result<usize, Error> {
         self.write(buffers)?;
-        Ok(buffers[0].len())
+        Ok(buffers.iter().map(|x| x.len()).min().unwrap_or_default())
     }
 
     fn write_all(
