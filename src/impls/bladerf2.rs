@@ -42,9 +42,9 @@ impl BladeRf2 {
             let Ok(value) = args.get::<String>(name) else {
                 return Ok(None);
             };
-            if ["true", "on", "1"].contains(&value) {
+            if ["true", "on", "1"].contains(&value.as_str()) {
                 Ok(Some(true))
-            } else if ["false", "off", "0"].contains(&value) {
+            } else if ["false", "off", "0"].contains(&value.as_str()) {
                 Ok(Some(false))
             } else {
                 Err(crate::Error::invalid_argument(name, "value must be 1 or 0"))
@@ -57,13 +57,12 @@ impl BladeRf2 {
         if let Some(value) = boolean("biastee_tx")? {
             bladerf2.set_bias_tee(bladerf2::Direction::Tx, value)?;
         }
-        if let Some(value) = boolean("tracking_control")? {
-            if !value {
-                bladerf2.disable_tracking_control()?;
-            }
-        }
 
         Ok(Self { inner: bladerf2 })
+    }
+
+    pub fn disable_tracking_control(&self) -> Result<(), Error> {
+        Ok(self.inner.disable_tracking_control()?)
     }
 }
 
