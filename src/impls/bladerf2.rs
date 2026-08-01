@@ -37,21 +37,32 @@ impl BladeRf2 {
             .map_err(|_| Error::invalid_argument("args", "failed to convert args"))?;
         let serial = args.get::<String>("serial").unwrap_or_default();
         let bladerf2 = bladerf2::BladeRf2::open_serial(&serial)?;
-        let biastee = |name: &str, value: &str| {
+
+        let boolean = |name: &str| {
+            let Ok(value) = args.get::<String>(name) else {
+                return Ok(None);
+            };
             if ["true", "on", "1"].contains(&value) {
-                Ok(true)
+                Ok(Some(true))
             } else if ["false", "off", "0"].contains(&value) {
-                Ok(false)
+                Ok(Some(false))
             } else {
                 Err(crate::Error::invalid_argument(name, "value must be 1 or 0"))
             }
         };
-        if let Ok(value) = args.get::<String>("biastee_rx") {
-            bladerf2.set_bias_tee(bladerf2::Direction::Rx, biastee("biastee_rx", &value)?)?;
+
+        if let Some(value) = boolean("biastee_rx")? {
+            bladerf2.set_bias_tee(bladerf2::Direction::Rx, value)?;
         }
-        if let Ok(value) = args.get::<String>("biastee_tx") {
-            bladerf2.set_bias_tee(bladerf2::Direction::Tx, biastee("biastee_tx", &value)?)?;
+        if let Some(value) = boolean("biastee_tx")? {
+            bladerf2.set_bias_tee(bladerf2::Direction::Tx, value)?;
         }
+        if let Some(value) = boolean("tracking_control")? {
+            if !value {
+                bladerf2.disable_tracking_control()?;
+            }
+        }
+
         Ok(Self { inner: bladerf2 })
     }
 }
