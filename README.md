@@ -36,6 +36,7 @@ Available features:
 | `soapy` | `driver=soapy` | SoapySDR backend. Enabled by default. Requires SoapySDR system libraries. |
 | `aaronia_http` | `driver=aaronia_http` | Aaronia HTTP backend. |
 | `bladerf1` | `driver=bladerf` | bladeRF 1 backend. |
+| `bladerf2` | `driver=bladerf2` | bladeRF 2 backend. |
 | `hackrfone` | `driver=hackrfone` | HackRF One backend. |
 | `hydrasdr` | `driver=hydrasdr` | HydraSDR backend; async WebUSB support on `wasm32-unknown-unknown`. |
 | `rtlsdr` | `driver=rtlsdr` | RTL-SDR backend. |

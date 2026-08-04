@@ -209,6 +209,9 @@ impl Default for Registry {
         #[cfg(all(feature = "bladerf1", not(target_arch = "wasm32")))]
         registry.register::<crate::impls::BladeRf>();
 
+        #[cfg(all(feature = "bladerf2", not(target_arch = "wasm32")))]
+        registry.register::<crate::impls::BladeRf2>();
+
         #[cfg(all(feature = "rtlsdr", not(target_arch = "wasm32")))]
         registry.register::<crate::impls::RtlSdr>();
 

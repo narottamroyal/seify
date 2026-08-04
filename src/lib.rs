@@ -214,6 +214,10 @@ pub enum DriverError {
     #[error("Ureq ({0})")]
     /// HTTP client error returned by the Aaronia HTTP backend.
     Ureq(Box<ureq::Error>),
+    #[cfg(all(feature = "bladerf2", not(target_arch = "wasm32")))]
+    #[error("BladeRf2 ({0})")]
+    /// Error returned by the RTL-SDR backend.
+    BladeRf2(bladerf2::BladeRf2Error),
     #[cfg(all(feature = "rtlsdr", not(target_arch = "wasm32")))]
     #[error("RtlSdr ({0})")]
     /// Error returned by the RTL-SDR backend.
@@ -396,6 +400,13 @@ impl From<ureq::Error> for Error {
     }
 }
 
+#[cfg(all(feature = "bladerf2", not(target_arch = "wasm32")))]
+impl From<bladerf2::BladeRf2Error> for Error {
+    fn from(value: bladerf2::BladeRf2Error) -> Self {
+        Error::Driver(DriverError::BladeRf2(value))
+    }
+}
+
 #[cfg(all(feature = "rtlsdr", not(target_arch = "wasm32")))]
 impl From<seify_rtlsdr::error::RtlsdrError> for Error {
     fn from(value: seify_rtlsdr::error::RtlsdrError) -> Self {
@@ -425,6 +436,8 @@ pub enum Driver {
     AaroniaHttp,
     /// bladeRF 1 backend.
     BladeRf,
+    /// bladeRF 2 backend.
+    BladeRf2,
     /// Dummy for unit tests.
     Dummy,
     /// HackRF One backend.
@@ -447,6 +460,9 @@ impl FromStr for Driver {
         }
         if s == "bladerf" || s == "bladerf1" || s == "BladeRf" {
             return Ok(Driver::BladeRf);
+        }
+        if s == "bladerf2" {
+            return Ok(Driver::BladeRf2);
         }
         if s == "rtlsdr" || s == "rtl-sdr" || s == "rtl" {
             return Ok(Driver::RtlSdr);
