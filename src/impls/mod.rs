@@ -16,6 +16,17 @@ pub use bladerf1::AsyncBladeRf;
 #[cfg(all(feature = "bladerf1", not(target_arch = "wasm32")))]
 pub use bladerf1::BladeRf;
 
+/// bladeRF 2 backend.
+#[cfg(feature = "bladerf2")]
+pub mod bladerf2;
+#[cfg(all(
+    feature = "bladerf2",
+    any(target_arch = "wasm32", feature = "smol", feature = "tokio")
+))]
+pub use bladerf2::AsyncBladeRf2;
+#[cfg(all(feature = "bladerf2", not(target_arch = "wasm32")))]
+pub use bladerf2::BladeRf2;
+
 #[cfg(feature = "dummy")]
 pub mod dummy;
 #[cfg(feature = "dummy")]

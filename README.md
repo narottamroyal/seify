@@ -36,6 +36,7 @@ Available features:
 | `soapy` | `driver=soapy` | SoapySDR backend. Enabled by default. Requires SoapySDR system libraries. |
 | `aaronia_http` | `driver=aaronia_http` | Aaronia HTTP backend. |
 | `bladerf1` | `driver=bladerf` | Full-duplex bladeRF 1 RX/TX backend; native sync needs no runtime, native async requires `smol` or `tokio`; async WebUSB support on `wasm32-unknown-unknown`. |
+| `bladerf2` | `driver=bladerf2` | Full-duplex bladeRF 2.0 micro RX/TX backend using the pure Rust [`bladerf2`](https://github.com/narottamroyal/bladerf2-rs) crate; native sync needs no runtime, native async requires `smol` or `tokio`; async WebUSB support on `wasm32-unknown-unknown`. Optional arguments: `serial`, `index`, `biastee_rx`, `biastee_tx`. |
 | `hackrf` | `driver=hackrf` | Half-duplex HackRF RX/TX backend; async WebUSB support on `wasm32-unknown-unknown`. |
 | `hydrasdr` | `driver=hydrasdr` | HydraSDR backend; async WebUSB support on `wasm32-unknown-unknown`. |
 | `pluto` | `driver=pluto` | Native PlutoSDR IIO USB RX and configuration; sync, async, and WebUSB. TX is not implemented. |

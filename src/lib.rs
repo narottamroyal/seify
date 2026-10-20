@@ -235,6 +235,10 @@ pub enum DriverError {
     #[error("Uhd ({0})")]
     /// Error returned by the native Rust USRP backend.
     Uhd(uhd_rs::Error),
+    #[cfg(feature = "bladerf2")]
+    #[error("BladeRf2 ({0})")]
+    /// Error returned by the bladeRF 2 backend.
+    BladeRf2(bladerf2::Error),
     #[error("{0}")]
     /// Backend error represented as a string.
     Other(String),
@@ -433,6 +437,13 @@ impl From<plutosdr::Error> for Error {
     }
 }
 
+#[cfg(feature = "bladerf2")]
+impl From<bladerf2::Error> for Error {
+    fn from(value: bladerf2::Error) -> Self {
+        Error::Driver(DriverError::BladeRf2(value))
+    }
+}
+
 /// Supported hardware drivers.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[non_exhaustive]
@@ -441,6 +452,8 @@ pub enum Driver {
     AaroniaHttp,
     /// bladeRF 1 backend.
     BladeRf,
+    /// bladeRF 2 backend.
+    BladeRf2,
     /// Dummy for unit tests.
     Dummy,
     /// HackRF backend.
@@ -466,6 +479,9 @@ impl FromStr for Driver {
             return Ok(Driver::AaroniaHttp);
         }
         if s == "bladerf" || s == "bladerf1" || s == "BladeRf" {
+            return Ok(Driver::BladeRf);
+        }
+        if s == "bladerf2" {
             return Ok(Driver::BladeRf);
         }
         if s == "rtlsdr" || s == "rtl-sdr" || s == "rtl" {

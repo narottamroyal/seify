@@ -415,6 +415,12 @@ impl Default for AsyncRegistry {
         registry.register::<crate::impls::AsyncBladeRf>();
 
         #[cfg(all(
+            feature = "bladerf2",
+            any(target_arch = "wasm32", feature = "smol", feature = "tokio")
+        ))]
+        registry.register::<crate::impls::AsyncBladeRf2>();
+
+        #[cfg(all(
             feature = "rtlsdr",
             any(target_arch = "wasm32", feature = "smol", feature = "tokio")
         ))]
@@ -448,6 +454,7 @@ fn unavailable_driver(driver: Driver) -> Error {
             | Driver::HackRf
             | Driver::HydraSdr
             | Driver::BladeRf
+            | Driver::BladeRf2
             | Driver::Pluto
             | Driver::RtlSdr
             | Driver::Uhd
@@ -469,6 +476,7 @@ fn unavailable_driver(driver: Driver) -> Error {
         feature = "hackrf",
         feature = "hydrasdr",
         feature = "bladerf1",
+        feature = "bladerf2",
         feature = "pluto",
         feature = "rtlsdr"
     ),
@@ -492,6 +500,7 @@ mod ordering_tests {
             Driver::HackRf,
             Driver::HydraSdr,
             Driver::BladeRf,
+            Driver::BladeRf2,
             Driver::Pluto,
             Driver::RtlSdr,
         ] {
