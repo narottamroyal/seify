@@ -54,12 +54,7 @@ impl AsyncBladeRf2 {
             ("biastee_tx", bladerf2::Direction::Tx),
         ] {
             if let Some(value) = boolean_arg(&args, name)? {
-                let rf = device.rf_link_session();
-                if value {
-                    rf.enable_bias_tee(direction).await?;
-                } else {
-                    rf.disable_bias_tee(direction).await?;
-                }
+                device.rf_link_session().set_bias_tee(direction, value).await?;
             }
         }
 
