@@ -41,7 +41,10 @@ impl BladeRf2 {
             ("biastee_tx", bladerf2::Direction::Tx),
         ] {
             if let Some(value) = boolean_arg(&args, name)? {
-                device.rf_link_session().set_bias_tee(direction, value).wait()?;
+                device
+                    .rf_link_session()
+                    .set_bias_tee(direction, value)
+                    .wait()?;
             }
         }
 

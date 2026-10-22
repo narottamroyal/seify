@@ -54,7 +54,10 @@ impl AsyncBladeRf2 {
             ("biastee_tx", bladerf2::Direction::Tx),
         ] {
             if let Some(value) = boolean_arg(&args, name)? {
-                device.rf_link_session().set_bias_tee(direction, value).await?;
+                device
+                    .rf_link_session()
+                    .set_bias_tee(direction, value)
+                    .await?;
             }
         }
 
@@ -488,9 +491,7 @@ impl crate::AsyncTxStreamer for AsyncBladeRf2TxStreamer {
             return Ok(0);
         }
         let sub: Vec<&[Complex32]> = buffers.iter().map(|b| &b[..n]).collect();
-        self.stream
-            .write_async(&sub, timeout(timeout_us))
-            .await?;
+        self.stream.write_async(&sub, timeout(timeout_us)).await?;
         Ok(n)
     }
 }

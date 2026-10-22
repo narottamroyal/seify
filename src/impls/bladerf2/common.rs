@@ -51,7 +51,9 @@ impl DeviceSelector {
         match self {
             Self::First => true,
             Self::Index(i) => index == *i,
-            Self::Serial(s) => dev.serial_number().is_some_and(|d| d.starts_with(s.as_str())),
+            Self::Serial(s) => dev
+                .serial_number()
+                .is_some_and(|d| d.starts_with(s.as_str())),
         }
     }
 }
