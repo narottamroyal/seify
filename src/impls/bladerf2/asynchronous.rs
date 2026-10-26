@@ -380,8 +380,8 @@ impl AsyncAgcControl for AsyncBladeRf2 {
 
 /// bladeRF 2.0 async receive streamer.
 ///
-/// Call `deactivate` before dropping it; dropping an active streamer only
-/// deactivates the radio on a best-effort basis (see [`bladerf2::RxStream`]).
+/// Call `deactivate` before dropping it: in the browser, dropping an active
+/// streamer leaves the radio running (see [`bladerf2::RxStream`]).
 #[must_use = "deactivate the streamer before dropping it"]
 pub struct AsyncBladeRf2RxStreamer {
     stream: bladerf2::RxStream,
@@ -439,8 +439,8 @@ impl crate::AsyncRxStreamer for AsyncBladeRf2RxStreamer {
 
 /// bladeRF 2.0 async transmit streamer.
 ///
-/// Call `deactivate` before dropping it; dropping an active streamer only
-/// deactivates the radio on a best-effort basis (see [`bladerf2::TxStream`]).
+/// Call `deactivate` before dropping it: in the browser, dropping an active
+/// streamer leaves the radio running (see [`bladerf2::TxStream`]).
 #[must_use = "deactivate the streamer before dropping it"]
 pub struct AsyncBladeRf2TxStreamer {
     stream: bladerf2::TxStream,

@@ -319,12 +319,6 @@ impl RxStreamer {
     }
 }
 
-impl Drop for RxStreamer {
-    fn drop(&mut self) {
-        let _ = self.stop();
-    }
-}
-
 impl crate::RxStreamer for RxStreamer {
     fn mtu(&self) -> Result<usize, Error> {
         Ok(self.stream.mtu())
@@ -375,12 +369,6 @@ impl TxStreamer {
             self.active = false;
         }
         Ok(())
-    }
-}
-
-impl Drop for TxStreamer {
-    fn drop(&mut self) {
-        let _ = self.stop();
     }
 }
 
