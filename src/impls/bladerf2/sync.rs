@@ -357,7 +357,7 @@ impl crate::RxStreamer for RxStreamer {
             return Ok(0);
         }
         let mut sub: Vec<&mut [Complex32]> = buffers.iter_mut().map(|b| &mut b[..n]).collect();
-        self.stream.read(&mut sub, timeout(timeout_us))?;
+        self.stream.read(&mut sub, timeout(timeout_us)).wait()?;
         Ok(n)
     }
 }
@@ -422,7 +422,7 @@ impl crate::TxStreamer for TxStreamer {
             return Ok(0);
         }
         let sub: Vec<&[Complex32]> = buffers.iter().map(|b| &b[..n]).collect();
-        self.stream.write(&sub, timeout(timeout_us))?;
+        self.stream.write(&sub, timeout(timeout_us)).wait()?;
         Ok(n)
     }
 
