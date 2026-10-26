@@ -430,9 +430,7 @@ impl crate::AsyncRxStreamer for AsyncBladeRf2RxStreamer {
             return Ok(0);
         }
         let mut sub: Vec<&mut [Complex32]> = buffers.iter_mut().map(|b| &mut b[..n]).collect();
-        self.stream
-            .read(&mut sub, timeout(timeout_us))
-            .await?;
+        self.stream.read(&mut sub, timeout(timeout_us)).await?;
         Ok(n)
     }
 }
