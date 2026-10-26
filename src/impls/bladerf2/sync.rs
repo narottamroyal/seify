@@ -21,7 +21,7 @@ pub struct BladeRf2 {
 impl BladeRf2 {
     /// Return descriptors for detected devices.
     pub fn probe(args: &Args) -> Result<Vec<Args>, Error> {
-        let devices = bladerf2::BladeRf2::enumerate()?;
+        let devices = bladerf2::BladeRf2::list_devices().wait()?;
         probe_args(&device_selector(args)?, devices)
     }
 
@@ -31,9 +31,9 @@ impl BladeRf2 {
         let args = args
             .try_into()
             .map_err(|_| Error::invalid_argument("args", "failed to convert args"))?;
-        let devices = bladerf2::BladeRf2::enumerate()?;
+        let devices = bladerf2::BladeRf2::list_devices().wait()?;
         let info = select_device(&device_selector(&args)?, devices)?;
-        let mut device = bladerf2::BladeRf2::open(info)?;
+        let mut device = bladerf2::BladeRf2::open_device(info).wait()?;
         let serial = device.serial()?.to_string();
 
         for (name, direction) in [
